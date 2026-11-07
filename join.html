@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Afterglow</title>
+<meta name="description" content="You've been invited to someone's Afterglow. Get the app and connect in a couple of taps.">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="afterglow-64.png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<main>
+ <header><img src="afterglow-mark.svg" alt=""><b>AFTERGLOW</b></header>
+
+ <div id="broken" class="problem" hidden>
+  <h3>This link is missing its invite</h3>
+  <p>It may have been cut short when it was sent. Ask for the invite again, or copy the whole message they sent.
+   <a href="./">Get Afterglow</a> anyway.</p>
+ </div>
+
+ <div id="welcome" hidden>
+  <div class="invited"><div class="mark" id="initial">A</div>
+   <div><h2 id="invited-to">You're invited</h2>
+    <p>Movies, shows and music from their collection, on your phone or computer, wherever you are.</p></div></div>
+
+  <p class="section-note" id="pick-note">Two steps on this device:</p>
+
+  <!-- Android -->
+  <ol class="steps" data-for="android" hidden>
+   <li><h3>Get Afterglow for Android</h3>
+    <p>Download it, open the file and tap Install. It's free, and not in the Play Store, so your phone asks first.</p>
+    <a class="btn rose" data-download="android" href="#">
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download Afterglow</a>
+    <details><summary>Help with installing</summary><ol>
+     <li>When the download is done, tap it (or find it in <b>Files › Downloads</b>).</li>
+     <li>If your phone asks, allow your browser to install apps, then go back.</li>
+     <li>Tap <b>Install</b>. If Google Play Protect asks about it, choose <b>Install anyway</b>.</li>
+     <li>Come back to this page for step 2.</li>
+    </ol></details></li>
+   <li><h3>Open your invite</h3>
+    <p>Afterglow opens, ready to add <b class="their-name">it</b>. Tap <b>Add</b>, and you're in.</p>
+    <a class="btn violet invite-link" href="#">Open my invite in Afterglow</a>
+    <p class="small" style="margin-top:12px">Nothing happens? Open Afterglow, choose <b>Add a server › A friend's Afterglow</b>,
+     and paste this: <button class="btn quiet copy-invite" style="min-height:36px;padding:0 12px;font-size:14px">Copy the invite</button></p></li>
+  </ol>
+
+  <!-- Windows -->
+  <ol class="steps" data-for="windows" hidden>
+   <li><h3>Get the Afterglow Client for Windows</h3>
+    <p>Download it and run it. It installs in a few seconds and sits by the clock. If Windows warns about it, choose
+     <b>More info › Run anyway</b>.</p>
+    <a class="btn violet" data-download="client" href="#">
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download Afterglow Client for Windows</a></li>
+   <li><h3>Open your invite</h3>
+    <p>Your browser asks to open Afterglow: say yes. It adds <b class="their-name">it</b> and opens it.</p>
+    <a class="btn dawn invite-link" href="#">Open my invite in Afterglow</a>
+    <p class="small" style="margin-top:12px">Or right-click Afterglow by the clock, choose <b>Add a friend's server</b> after
+     copying this: <button class="btn quiet copy-invite" style="min-height:36px;padding:0 12px;font-size:14px">Copy the invite</button></p></li>
+  </ol>
+
+  <!-- Mac -->
+  <ol class="steps" data-for="mac" hidden>
+   <li><h3>Get Afterglow for Mac</h3>
+    <p>Download it, open the download, and drag <b>Afterglow</b> into <b>Applications</b>. Open it from there. The first
+     time, macOS says it can't check it: open <b>System Settings › Privacy &amp; Security</b>, scroll down, and choose
+     <b>Open Anyway</b>. That's once.</p>
+    <a class="btn violet" data-download="mac" href="#">
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download Afterglow for Mac</a></li>
+   <li><h3>Open your invite</h3>
+    <p>Afterglow is in the menu bar at the top of the screen. Your browser asks to open it: say yes. It adds
+     <b class="their-name">it</b> and opens it.</p>
+    <a class="btn dawn invite-link" href="#">Open my invite in Afterglow</a>
+    <p class="small" style="margin-top:12px">Or copy this, then click Afterglow in the menu bar and choose <b>Add a friend's server</b>:
+     <button class="btn quiet copy-invite" style="min-height:36px;padding:0 12px;font-size:14px">Copy the invite</button></p></li>
+  </ol>
+
+  <!-- Linux -->
+  <ol class="steps" data-for="linux" hidden>
+   <li><h3>Install and join, in one go</h3>
+    <p>Paste this into a terminal. It installs the Afterglow Client for you only (no password), adds <b class="their-name">it</b>
+     and opens it.</p>
+    <div class="command"><code id="linux-join"></code><button class="btn quiet" id="copy-linux">Copy</button></div></li>
+  </ol>
+
+  <!-- Nothing for this device yet -->
+  <div data-for="none" hidden>
+   <div class="problem"><h3>No Afterglow Client for this device yet</h3>
+    <p>Afterglow has apps for Android phones and tablets, and for Windows, Mac and Linux computers. Open this same link on
+     one of them. (An iPhone app is on the way.)</p></div>
+  </div>
+
+  <p class="small" style="margin-top:22px">On another kind of device?
+   <button class="btn quiet" data-show="android" style="min-height:36px;padding:0 12px;font-size:14px">Android</button>
+   <button class="btn quiet" data-show="windows" style="min-height:36px;padding:0 12px;font-size:14px">Windows</button>
+   <button class="btn quiet" data-show="mac" style="min-height:36px;padding:0 12px;font-size:14px">Mac</button>
+   <button class="btn quiet" data-show="linux" style="min-height:36px;padding:0 12px;font-size:14px">Linux</button></p>
+
+  <details><summary>What is this?</summary><ul>
+   <li>Afterglow plays a collection of movies, shows, music, podcasts and books from someone's own computer.</li>
+   <li>This invite lets one of your devices connect to theirs, from anywhere. It works once; ask for another for each device.</li>
+   <li>The invite stays in this link on your device: this page never sends it anywhere.</li>
+   <li>Free, no accounts, no ads. <a href="./">More about the apps</a>.</li>
+  </ul></details>
+ </div>
+
+ <footer><span>Afterglow, by Shnerp Labs</span><a href="./">Get Afterglow</a></footer>
+</main>
+<script src="site.js"></script>
+<script>
+'use strict';
+// The invite is after the #: browsers never send that part to the website, so it stays on this device.
+function readInvite() {
+  const text = decodeURIComponent(location.hash.slice(1)).replace(/\s+/g, '');
+  const m = /afterglow-invite:([A-Za-z0-9_-]+)/i.exec(text);
+  if (!m) return null;
+  try {
+    const raw = m[1].replace(/-/g, '+').replace(/_/g, '/');
+    const inv = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(raw + '='.repeat((4 - raw.length % 4) % 4)), c => c.charCodeAt(0))));
+    if (!inv || !inv.host || !inv.port || String(inv.key || '').length !== 64) return null;
+    return { code: 'afterglow-invite:' + m[1], name: String(inv.name || 'their Afterglow').slice(0, 80) };
+  } catch { return null; }
+}
+const invite = readInvite();
+if (!invite) document.getElementById('broken').hidden = false;
+else {
+  document.getElementById('welcome').hidden = false;
+  document.getElementById('invited-to').textContent = `You're invited to ${invite.name}`;
+  document.getElementById('initial').textContent = (invite.name.match(/[A-Za-z0-9]/) || ['A'])[0].toUpperCase();
+  document.title = `Join ${invite.name} on Afterglow`;
+  for (const b of document.querySelectorAll('.their-name')) b.textContent = invite.name;
+  for (const a of document.querySelectorAll('.invite-link')) a.href = invite.code;
+  for (const a of document.querySelectorAll('[data-download]')) a.href = download(a.dataset.download);
+  const join = `${LINUX} -s -- '${invite.code}'`;
+  document.getElementById('linux-join').textContent = join;
+  document.getElementById('copy-linux').onclick = () => copy(join, 'Copied. Paste it into a terminal.');
+  for (const b of document.querySelectorAll('.copy-invite')) b.onclick = () => copy(invite.code, 'Invite copied');
+  const show = which => {
+    for (const el of document.querySelectorAll('[data-for]')) el.hidden = el.dataset.for !== which;
+    document.getElementById('pick-note').textContent = which === 'linux' ? 'One step on this computer:' : which === 'none' ? '' : 'Two steps on this device:';
+  };
+  const here = platform();
+  show(here === 'android' || here === 'chromeos' ? 'android' : here === 'windows' ? 'windows' : here === 'mac' ? 'mac' : here === 'linux' ? 'linux' : 'none');
+  for (const b of document.querySelectorAll('[data-show]')) b.onclick = () => show(b.dataset.show);
+}
+</script>
+</body>
+</html>
