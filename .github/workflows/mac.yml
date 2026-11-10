@@ -1,0 +1,270 @@
+# Afterglow.app (Afterglow Client for the Mac) and Afterglow Server.app, built and checked on GitHub's Mac.
+#
+# This runs in the public releases repository, where GitHub's Actions are free, not in the private code repository
+# (whose Mac minutes count ten times against a small monthly allowance). installer/release.ps1 hands it the files it
+# needs for one build (installer/mac-input: the same files every release already ships, plus the Mac packaging
+# scripts) on a draft release that nobody else can see, starts it, takes the two apps, and deletes the draft and the
+# results. The source of this file is installer/mac-build.yml in the code repository; release.ps1 keeps this copy the
+# same.
+name: Mac app
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version"
+        required: true
+      input:
+        description: "The draft release (its id) holding this build's files"
+        required: true
+
+permissions:
+  contents: write   # reading the draft release with this build's files
+
+env:
+  AFTERGLOW_VERSION: ${{ inputs.version }}
+  PBS: "20261013"
+  PY: "3.12.15"
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: This build's files (from the draft release that installer/release.ps1 made for it)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_ID: ${{ inputs.input }}
+        run: |
+          set -euo pipefail
+          case "$INPUT_ID" in (*[!0-9]*|'') echo "Not a release id: $INPUT_ID"; exit 1;; esac
+          asset=$(gh api "repos/$GITHUB_REPOSITORY/releases/$INPUT_ID/assets" -q '.[] | select(.name=="mac-input.tar.gz") | .id')
+          gh api -H "Accept: application/octet-stream" "repos/$GITHUB_REPOSITORY/releases/assets/$asset" > "$RUNNER_TEMP/mac-input.tar.gz"
+          tar -xzf "$RUNNER_TEMP/mac-input.tar.gz"
+          ls
+
+      - name: Downloads kept from earlier builds (GitHub's release storage sometimes answers 504 for a while)
+        uses: actions/cache@v4
+        with:
+          path: ~/afterglow-downloads
+          key: mac-downloads-${{ github.job }}-v1-${{ env.PBS }}-${{ env.PY }}
+
+      - name: Python to carry (Apple Silicon and Intel), checked
+        run: |
+          set -euo pipefail
+          get(){ c="$HOME/afterglow-downloads/$(printf %s "$2" | shasum | cut -c1-16)-$(basename "$1")"; mkdir -p "$HOME/afterglow-downloads"; [ -s "$c" ] || { curl -fsSL --retry 60 --retry-all-errors --retry-delay 15 --retry-max-time 900 -o "$c.part" "$2" && mv "$c.part" "$c"; }; cp "$c" "$1"; }
+          mkdir -p build/py && cd build/py
+          for arch in aarch64 x86_64; do
+            name="cpython-${PY}+${PBS}-${arch}-apple-darwin-install_only.tar.gz"
+            get "$name" "https://github.com/astral-sh/python-build-standalone/releases/download/${PBS}/cpython-${PY}%2B${PBS}-${arch}-apple-darwin-install_only.tar.gz"
+          done
+          cat > sums <<'EOF'
+          ba32036ad8f4c434d97a1ee7feef8b7edc0fac16777639b97e39c74a108e4440  cpython-3.12.15+20261013-aarch64-apple-darwin-install_only.tar.gz
+          9686ddd8639b855905447ea4a16eb54a804a9ef12afbe7c9ecb1412d9c1fbc98  cpython-3.12.15+20261013-x86_64-apple-darwin-install_only.tar.gz
+          EOF
+          sed -i '' 's/^ *//' sums
+          shasum -a 256 -c sums
+          mkdir arm64 x86_64
+          tar -xzf "cpython-${PY}+${PBS}-aarch64-apple-darwin-install_only.tar.gz" -C arm64
+          tar -xzf "cpython-${PY}+${PBS}-x86_64-apple-darwin-install_only.tar.gz" -C x86_64
+
+      - name: Client launch and update regression tests
+        run: python3 tests/test_mac_client.py
+
+      - name: Build Afterglow.app
+        run: |
+          set -euo pipefail
+          python3 installer/pack_client.py "$AFTERGLOW_VERSION"
+          python3 installer/pack_mac.py --python-arm64 build/py/arm64/python --python-x86_64 build/py/x86_64/python "$AFTERGLOW_VERSION"
+
+      - name: Check it
+        run: |
+          set -euo pipefail
+          app=dist/mac/Afterglow.app
+          codesign --verify --deep --strict "$app" && echo "PASS: signed (ad hoc)"
+          # A real program as the app (not a script): macOS only asks for Local Network access for an app it can name.
+          file "$app/Contents/MacOS/Afterglow" | grep -q "Mach-O universal binary" && echo "PASS: the app's program is a native launcher (Apple Silicon and Intel)"
+          test -x "$app/Contents/Resources/launch.sh"
+          "$app/Contents/MacOS/Afterglow" --list && echo "PASS: the app runs its client (Apple Silicon)"
+          if arch -x86_64 /usr/bin/true 2>/dev/null; then
+            arch -x86_64 "$app/Contents/Resources/python-x86_64/bin/python3" -B -E -s -c "import ssl, ctypes, json, sqlite3; print('PASS: the Intel Python works (under Rosetta)')"
+          else
+            file "$app/Contents/Resources/python-x86_64/bin/python3.12" | grep -q x86_64 && echo "PASS: the Intel Python is there (no Rosetta here to run it)"
+          fi
+          "$app/Contents/Resources/python-arm64/bin/python3" -B -E -s installer/mac_selftest.py "$app" dist/mac/menu-bar.png
+          # The whole app, opened the way Finder opens it: in the menu bar, and quits when asked.
+          open "$app" --args --background
+          sleep 8
+          pgrep -f "Resources/client/afterglow_client_boot.py" && echo "PASS: opened, and running in the menu bar"
+          screencapture -x dist/mac/opened.png
+          "$app/Contents/MacOS/Afterglow" --quit-running
+          sleep 2
+          ! pgrep -f "Resources/client/afterglow_client_boot.py" && echo "PASS: Quit closes it"
+          tail -20 "$HOME/Library/Application Support/Afterglow Client/client.log" || true
+          # Opened the way a person opens it (double-click, no arguments): a window, with the client's own screens in it.
+          log="$HOME/Library/Application Support/Afterglow Client/client.log"
+          open "$app"
+          for i in $(seq 1 40); do grep -q "window shown" "$log" 2>/dev/null && break; sleep 1; done
+          sleep 6
+          screencapture -x dist/mac/window.png || true
+          grep "window shown" "$log" && echo "PASS: opening it shows its window"
+          ! grep -q "menu bar change failed" "$log" && echo "PASS: no failure putting up the window or the menu bar"
+          "$app/Contents/MacOS/Afterglow" --quit-running
+          sleep 2
+          tail -30 "$log" || true
+          codesign --verify --deep --strict "$app" && echo "PASS: launching did not change the signed bundle"
+          test -z "$(find "$app" -name __pycache__ -print -quit)" && echo "PASS: no bytecode written into the bundle"
+
+      - name: Launch a client update and restart it using the bundled runtime
+        run: |
+          set -euo pipefail
+          app="$PWD/dist/mac/Afterglow.app"
+          update="$HOME/Library/Application Support/Afterglow Client/updates/99.0.0/client"
+          mkdir -p "$update"
+          ditto "$app/Contents/Resources/client" "$update"
+          UPDATE_CLIENT="$update" python3 - <<'PY'
+          import os, pathlib, re
+          folder = pathlib.Path(os.environ["UPDATE_CLIENT"])
+          script = folder / "afterglow_client.py"
+          script.write_text(re.sub(r'^VERSION = ".*"', 'VERSION = "99.0.0"', script.read_text(), flags=re.M))
+          (folder / ".ready").write_text("99.0.0")
+          PY
+          open "$app" --args --background
+          for i in $(seq 1 20); do "$app/Contents/MacOS/Afterglow" --status && break; sleep 1; done
+          "$app/Contents/MacOS/Afterglow" --status
+          test "$("$app/Contents/MacOS/Afterglow" --version)" = 99.0.0
+          test ! -f "$update/.attempts" && echo "PASS: the updated client finished starting"
+          "$app/Contents/MacOS/Afterglow" --quit-running
+          sleep 2
+          codesign --verify --deep --strict "$app"
+          rm -rf "$HOME/Library/Application Support/Afterglow Client/updates/99.0.0"
+
+
+      - name: Install it with the one command (installer/install-mac.sh)
+        run: |
+          set -euo pipefail
+          mkdir -p build/plain && cp dist/mac/AfterglowClientMac-*.zip build/plain/Afterglow-Mac.zip
+          AFTERGLOW_MAC_BASE="file://$PWD/build/plain" AFTERGLOW_MAC_NO_OPEN=1 sh installer/install-mac.sh
+          app=/Applications/Afterglow.app
+          test -x "$app/Contents/MacOS/Afterglow" && echo "PASS: installed in Applications"
+          ! xattr -p com.apple.quarantine "$app" 2>/dev/null && echo "PASS: not marked as downloaded (macOS doesn't stop it)"
+          codesign --verify --deep --strict "$app" && echo "PASS: still signed"
+          "$app/Contents/MacOS/Afterglow" --list && echo "PASS: the installed app runs"
+          AFTERGLOW_MAC_BASE="file://$PWD/build/plain" AFTERGLOW_MAC_NO_OPEN=1 sh installer/install-mac.sh
+          "$app/Contents/MacOS/Afterglow" --list && echo "PASS: installs over an older copy (an update the same way)"
+          AFTERGLOW_MAC_BASE="file://$PWD/build/plain" sh installer/install-mac.sh
+          "$app/Contents/MacOS/Afterglow" --status && echo "PASS: the installer verified a running client"
+          "$app/Contents/MacOS/Afterglow" --quit-running
+          sleep 2
+          codesign --verify --deep --strict "$app"
+          rm -rf "$app"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: afterglow-mac
+          path: |
+            dist/mac/*.zip
+            dist/mac/*.png
+          retention-days: 1
+
+  server:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - name: This build's files (from the draft release that installer/release.ps1 made for it)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_ID: ${{ inputs.input }}
+        run: |
+          set -euo pipefail
+          case "$INPUT_ID" in (*[!0-9]*|'') echo "Not a release id: $INPUT_ID"; exit 1;; esac
+          asset=$(gh api "repos/$GITHUB_REPOSITORY/releases/$INPUT_ID/assets" -q '.[] | select(.name=="mac-input.tar.gz") | .id')
+          gh api -H "Accept: application/octet-stream" "repos/$GITHUB_REPOSITORY/releases/assets/$asset" > "$RUNNER_TEMP/mac-input.tar.gz"
+          tar -xzf "$RUNNER_TEMP/mac-input.tar.gz"
+          ls
+
+      - name: Downloads kept from earlier builds (GitHub's release storage sometimes answers 504 for a while)
+        uses: actions/cache@v4
+        with:
+          path: ~/afterglow-downloads
+          key: mac-downloads-${{ github.job }}-v1-${{ env.PBS }}-${{ env.PY }}
+
+      - name: Python, FFmpeg and fpcalc to carry (Apple Silicon and Intel), checked
+        run: |
+          set -euo pipefail
+          get(){ c="$HOME/afterglow-downloads/$(printf %s "$2" | shasum | cut -c1-16)-$(basename "$1")"; mkdir -p "$HOME/afterglow-downloads"; [ -s "$c" ] || { curl -fsSL --retry 60 --retry-all-errors --retry-delay 15 --retry-max-time 900 -o "$c.part" "$2" && mv "$c.part" "$c"; }; cp "$c" "$1"; }
+          mkdir -p build/py build/tools && cd build/py
+          for arch in aarch64 x86_64; do
+            get "py-$arch.tar.gz" "https://github.com/astral-sh/python-build-standalone/releases/download/${PBS}/cpython-${PY}%2B${PBS}-${arch}-apple-darwin-install_only.tar.gz"
+          done
+          cd ../tools
+          base=https://ffmpeg.martin-riedl.de/download/macos
+          get ffmpeg-arm64.zip  "$base/arm64/1789931890_9.0.2/ffmpeg.zip"
+          get ffprobe-arm64.zip "$base/arm64/1789931890_9.0.2/ffprobe.zip"
+          get ffmpeg-x86_64.zip  "$base/amd64/1789931006_9.0.2/ffmpeg.zip"
+          get ffprobe-x86_64.zip "$base/amd64/1789931006_9.0.2/ffprobe.zip"
+          get fpcalc.tar.gz https://github.com/acoustid/chromaprint/releases/download/v1.5.1/chromaprint-fpcalc-1.5.1-macos-universal.tar.gz
+          cd ..
+          cat > sums <<'EOF'
+          ba32036ad8f4c434d97a1ee7feef8b7edc0fac16777639b97e39c74a108e4440  py/py-aarch64.tar.gz
+          9686ddd8639b855905447ea4a16eb54a804a9ef12afbe7c9ecb1412d9c1fbc98  py/py-x86_64.tar.gz
+          c8ed4c4e6978a03c485edbfe4e0a5dc2380f8a30bba5150531b31b094492d924  tools/ffmpeg-arm64.zip
+          fcbe839537485eaee7a7a8bc5cbc0f90d53617e80943e8a5b2e31cb851197ea6  tools/ffprobe-arm64.zip
+          7c6b4125b191cbf773832dc51f424cf2b6bb7da43007d1e066f95909e47cacd4  tools/ffmpeg-x86_64.zip
+          2322438ed2f6319a691291b247d09c69dcaa3a982460d1f269a7e1af335cfdfd  tools/ffprobe-x86_64.zip
+          d4d8faff4b5f7c558d9be053da47804f9501eaa6c2f87906a9f040f38d61c860  tools/fpcalc.tar.gz
+          EOF
+          sed -i '' 's/^ *//' sums
+          shasum -a 256 -c sums
+          mkdir -p py/arm64 py/x86_64 tools/arm64 tools/x86_64
+          tar -xzf py/py-aarch64.tar.gz -C py/arm64
+          tar -xzf py/py-x86_64.tar.gz -C py/x86_64
+          tar -xzf tools/fpcalc.tar.gz -C tools
+          for arch in arm64 x86_64; do
+            unzip -q -o "tools/ffmpeg-$arch.zip" -d "tools/$arch"
+            unzip -q -o "tools/ffprobe-$arch.zip" -d "tools/$arch"
+            cp tools/chromaprint-fpcalc-1.5.1-macos-universal/fpcalc "tools/$arch/fpcalc"
+            chmod +x tools/$arch/*
+          done
+          ls -la tools/arm64 tools/x86_64
+
+      - name: Build Afterglow Server.app
+        run: |
+          set -euo pipefail
+          cd installer
+          python3 pack_mac_server.py --python-arm64 ../build/py/arm64/python --python-x86_64 ../build/py/x86_64/python             --tools-arm64 ../build/tools/arm64 --tools-x86_64 ../build/tools/x86_64 "$AFTERGLOW_VERSION"
+
+      - name: Check it
+        run: |
+          set -euo pipefail
+          app="dist/mac-server/Afterglow Server.app"
+          codesign --verify --deep --strict "$app" && echo "PASS: signed (ad hoc)"
+          res="$app/Contents/Resources"
+          "$res/tools-arm64/ffmpeg" -hide_banner -version | head -1
+          "$res/tools-arm64/fpcalc" -version
+          PATH="$res/tools-arm64:$PATH" "$res/python-arm64/bin/python3" -B -E -s -c "import sys; sys.path.insert(0, sys.argv[1]); import afterglow_audio, afterglow_boot, afterglow_server; print('PASS: the server finds', afterglow_audio.tool('ffmpeg')); assert afterglow_server.INSTALL_ROOT, 'installed'; print('PASS: it knows it is installed; data in', afterglow_server.default_data_dir())" "$res/app/server"
+          if arch -x86_64 /usr/bin/true 2>/dev/null; then
+            arch -x86_64 "$res/tools-x86_64/ffmpeg" -hide_banner -version | head -1 && echo "PASS: the Intel FFmpeg works (under Rosetta)"
+          fi
+          # A short clip made by the app's own FFmpeg, in a library folder, to see it played.
+          mkdir -p "$HOME/Movies/Afterglow Check"
+          "$res/tools-arm64/ffmpeg" -v error -f lavfi -i testsrc=s=320x180:r=24 -f lavfi -i sine -t 4 -c:v libx264 -c:a aac "$HOME/Movies/Afterglow Check/Check Clip (2026).mp4"
+          open "$app" --args --background
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8765/api/info >/dev/null && break; sleep 1; done
+          curl -fs http://127.0.0.1:8765/api/info && echo && echo "PASS: opened, and serving"
+          pgrep -f "afterglow_menubar.py" && echo "PASS: running in the menu bar"
+          test -f "$HOME/Library/LaunchAgents/com.shnerplabs.afterglow-server.plist" && echo "PASS: starts at login"
+          curl -fs -X POST -H "X-Afterglow: 1" -H "Content-Type: application/json" -d "{\"folder\": \"$HOME/Movies/Afterglow Check\"}" http://127.0.0.1:8765/api/library >/dev/null
+          curl -fs http://127.0.0.1:8765/api/library | python3 -c "import json,sys; d=json.load(sys.stdin); n=sum(f['files'] for f in d['folders']); assert n == 1, d; print('PASS: the library folder is read')"
+          screencapture -x dist/mac-server/opened.png
+          "$app/Contents/MacOS/Afterglow Server" --quit
+          sleep 2
+          ! pgrep -f "afterglow_menubar.py" && echo "PASS: Quit closes it"
+          tail -20 "$HOME/Library/Application Support/Afterglow/afterglow.log" || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: afterglow-mac-server
+          path: |
+            dist/mac-server/*.zip
+            dist/mac-server/*.png
+          retention-days: 1
