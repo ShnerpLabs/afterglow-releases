@@ -10,6 +10,8 @@ Pick your media folders. Afterglow takes care of the busywork: finding titles, f
 
 ### [↓ Download Afterglow for Windows](https://github.com/ShnerpLabs/afterglow-releases/releases/latest)
 
+**[shnerplabs.com](https://shnerplabs.com)**: setup guide, [Linux and NAS](https://shnerplabs.com/linux-server), and [how Afterglow compares with Plex](https://shnerplabs.com/afterglow-vs-plex).
+
 **Windows PC hosts your library · Watch in a browser on your home network · Your files stay on your server**
 
 ## Three steps to your next great night.
