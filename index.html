@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get LoungeCat</title>
+<meta name="description" content="LoungeCat plays your own movies, shows, music, podcasts and books on every screen. Download the server and the clients here.">
+<link rel="icon" href="loungecat-64.png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<main>
+ <header><img src="loungecat-mark.svg" alt=""><b>LoungeCat</b></header>
+
+ <h1>Your movies, shows and music, <em>on every screen.</em></h1>
+ <p class="lead">LoungeCat is two parts: the <b>server</b>, on one computer at home with your collection, and
+  the <b>clients</b>, on your phone and your other computers, which play it at home or anywhere. Each is a single download,
+  and each keeps itself up to date.</p>
+ <p class="version" id="version" hidden></p>
+
+ <div class="part" id="part-server">
+ <h2 class="step"><span class="step-n">1</span>LoungeCat Server <small>what makes it all work</small></h2>
+ <p class="section-note">The server is LoungeCat itself. It goes on <b>one</b> computer at home, the one with your movies,
+  shows, music, podcasts and books: it sorts them out with artwork and details, and plays them to every screen. Every
+  client below connects to a server. You only need one, and only if the collection is yours: invited by a friend? Skip
+  to the clients.</p>
+ <div class="apps">
+  <section class="app" data-for="windows" aria-labelledby="t-server">
+   <div class="icon dawn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+   <div><p class="who">The computer with your collection</p><h3 id="t-server">LoungeCat Server for Windows</h3></div>
+   <p>Install this on the computer that has your movies, shows, music, podcasts and books. It sorts them out with artwork
+    and details, and plays them to everything else.</p>
+   <ul><li>Point it at your folders; it does the rest</li><li>Channels, playlists, profiles for everyone at home</li>
+    <li>Your phone reaches it from anywhere, safely</li></ul>
+   <div class="go"><a class="btn dawn" data-download="server" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download LoungeCat Server</a>
+    <span class="small">Windows 10 or 11</span></div>
+  </section>
+  <section class="app" data-for="mac-server" aria-labelledby="t-mac-server">
+   <div class="icon dawn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14v10H5zM3 19h18"/></svg></div>
+   <div><p class="who">The computer with your collection</p><h3 id="t-mac-server">LoungeCat Server for Mac</h3></div>
+   <p>LoungeCat Server on a Mac, for when your collection lives on one. Everything the Windows server does, from the
+    menu bar at the top of the screen. Open <b>Terminal</b> (in Applications › Utilities), paste this and press Return. It installs LoungeCat Server in Applications and opens it, with no warning from macOS.</p>
+   <div class="command"><code id="mac-server-command"></code><button class="btn quiet" data-copy="mac-server" data-said="Copied. Paste it into Terminal.">Copy</button></div>
+   <span class="small">macOS 11 or newer, Apple Silicon or Intel</span>
+   <p class="small">Or <a data-download="mac-server" href="#">download it</a>, drag LoungeCat Server into Applications and open it. The first time,
+    macOS says it can't check it: open <b>System Settings › Privacy &amp; Security</b>, scroll down, and choose <b>Open Anyway</b>.</p>
+  </section>
+ </div>
+
+ </div>
+ <div class="part" id="part-apps">
+ <h2 class="step"><span class="step-n">2</span>LoungeCat Clients <small>to watch and listen, anywhere</small></h2>
+ <p class="section-note">A client goes on each device you watch or listen on. It finds an LoungeCat Server (yours at home,
+  or a friend's from their invite), connects to it safely from anywhere, and plays what's on it. Clients hold no
+  collection of their own, and you can have as many as you like.</p>
+ <div class="apps">
+  <section class="app" data-for="android" aria-labelledby="t-android">
+   <div class="icon rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+   <div><p class="who">Phones and tablets</p><h3 id="t-android">LoungeCat Client for Android</h3></div>
+   <p>Watch and listen on your phone, at home or away. It finds your LoungeCat by itself, and keeps playing with the
+    screen off.</p>
+   <ul><li>Remote-control the TV or computer</li><li>Watch together, in step, with the family</li>
+    <li>Add a friend's LoungeCat from their invite</li></ul>
+   <div class="go"><a class="btn rose" data-download="android" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download for Android</a>
+    <span class="small">Android 8 or newer</span></div>
+   <details><summary>Installing it, the first time</summary><ol>
+    <li>Tap <b>Download for Android</b>, then open the file when it's done.</li>
+    <li>If your phone asks, allow your browser to install apps (it's a one-time switch), then go back.</li>
+    <li>Tap <b>Install</b>. If Google Play Protect asks about it, choose <b>Install anyway</b>: LoungeCat isn't in the
+     Play Store, so Google doesn't know it yet.</li>
+    <li>Open LoungeCat. At home, it finds your LoungeCat computer and asks you to check a code there.</li>
+   </ol></details>
+  </section>
+  <section class="app" data-for="windows-client" aria-labelledby="t-client">
+   <div class="icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v10H4zM2 19h20"/></svg></div>
+   <div><p class="who">Other Windows computers</p><h3 id="t-client">LoungeCat Client for Windows</h3></div>
+   <p>For a laptop or another PC: it sits by the clock, connects to an LoungeCat (yours or a friend's) and opens it in
+    your browser with one click. Not needed on the computer that has your collection.</p>
+   <div class="go"><a class="btn violet" data-download="client" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download LoungeCat Client for Windows</a>
+    <span class="small">Windows 10 or 11</span></div>
+  </section>
+  <section class="app" data-for="mac" aria-labelledby="t-mac">
+   <div class="icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14v10H5zM3 19h18M10 15v4M14 15v4"/></svg></div>
+   <div><p class="who">Macs</p><h3 id="t-mac">LoungeCat Client for Mac</h3></div>
+   <p>The same as the Windows client, in the menu bar at the top of the screen: it connects to an LoungeCat (yours or
+    a friend's) and opens it in your browser with one click. Open <b>Terminal</b> (in Applications › Utilities), paste this and press Return. It installs LoungeCat in Applications and opens it, with no warning from macOS.</p>
+   <div class="command"><code id="mac-command"></code><button class="btn quiet" data-copy="mac" data-said="Copied. Paste it into Terminal.">Copy</button></div>
+   <span class="small">macOS 11 or newer, Apple Silicon or Intel</span>
+   <p class="small">Or <a data-download="mac" href="#">download it</a>, drag LoungeCat into Applications and open it. The first time,
+    macOS says it can't check it: open <b>System Settings › Privacy &amp; Security</b>, scroll down, and choose <b>Open Anyway</b>.</p>
+  </section>
+  <section class="app" data-for="linux" aria-labelledby="t-linux">
+   <div class="icon dusk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10l3 2-3 2M12 15h5"/></svg></div>
+   <div><p class="who">Linux computers</p><h3 id="t-linux">LoungeCat Client for Linux</h3></div>
+   <p>The same as the Windows client, in your panel. Paste this into a terminal: it installs for you only (no password)
+    and starts right away.</p>
+   <div class="command"><code id="linux-command"></code><button class="btn quiet" data-copy="linux" data-said="Copied. Paste it into a terminal.">Copy</button></div>
+   <p class="small">Works with KDE, GNOME, XFCE, Cinnamon and most others.</p>
+  </section>
+ </div>
+ </div>
+
+ <h2>Questions</h2>
+ <div class="faq">
+  <details><summary>iPhone, iPad or a smart TV?</summary><p>There's no app for them yet. At home, open LoungeCat in
+   the web browser (on an iPhone or iPad, Safari's <b>Share › Add to Home Screen</b> puts it on your home screen like an app): on the LoungeCat computer, <b>Settings › Server › Phones and other devices</b> shows the address to type in. Smart TVs can also
+   be sent things from the Android app with <b>Cast</b>.</p></details>
+  <details><summary>How do I invite family or friends?</summary><p>On the LoungeCat computer, go to <b>Settings › Server</b>
+   and, under <b>Friends</b>, choose <b>Invite a friend</b>. Send them the message it makes. Their link brings them here, gets them
+   the right app, and connects it, all in a couple of taps.</p></details>
+  <details><summary>Is it safe?</summary><p>Your collection stays on your computer; nothing is uploaded anywhere. Only
+   devices you've approved (or invited) can get in, and the connection away from home is encrypted end to end.</p></details>
+  <details><summary>Does it cost anything?</summary><p>No. LoungeCat is free, with no accounts and no ads.</p></details>
+  <details><summary>Windows warned me about the download.</summary><p>Windows SmartScreen warns about apps it hasn't seen
+   much yet. Choose <b>More info</b>, then <b>Run anyway</b>.</p></details>
+  <details><summary>My Mac says it can't open LoungeCat.</summary><p>macOS stops apps that aren't from the App Store or a
+   paid Apple account when they're downloaded in a browser. The easy way round it: install with the Terminal command above
+   (open <b>Terminal</b> from Applications › Utilities, paste, press Return). It puts LoungeCat in Applications and opens it,
+   and macOS doesn't ask. With the download instead: open <b>System Settings › Privacy &amp; Security</b>, scroll to the
+   message about LoungeCat, and choose <b>Open Anyway</b>, then <b>Open</b>.</p></details>
+  <details><summary>Updates?</summary><p>Every LoungeCat app checks for a new version every hour and updates itself
+   quietly when nothing is playing. There's nothing to do.</p></details>
+ </div>
+
+ <footer><span>LoungeCat, by Shnerp Labs</span><a href="https://github.com/ShnerpLabs/loungecat-releases/releases">All versions and files</a></footer>
+</main>
+<script src="site.js"></script>
+<script>
+'use strict';
+for (const a of document.querySelectorAll('[data-download]')) a.href = download(a.dataset.download);
+document.getElementById('linux-command').textContent = LINUX;
+document.getElementById('mac-command').textContent = MAC;
+document.getElementById('mac-server-command').textContent = MAC + ' -s -- --server';
+// This device's app first, marked.
+const mine = { android: 'android', windows: 'windows', linux: 'linux', chromeos: 'android', mac: 'mac' }[platform()];
+const card = mine && document.querySelector(`.app[data-for="${mine}"]`);
+if (card) {
+  const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'For this device'; card.prepend(tag);
+  card.classList.add('here');
+  // On a phone the app comes first, the server (for a computer) after it.
+  if (mine === 'android') { card.parentElement.prepend(card); document.getElementById('part-server').before(document.getElementById('part-apps')); }
+}
+showVersion(document.getElementById('version'));
+</script>
+</body>
+</html>
