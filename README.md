@@ -1,79 +1,74 @@
-<p align="center">
-  <a href="https://github.com/ShnerpLabs/afterglow-releases/releases/latest"><img src="images/afterglow-hero.png" alt="Afterglow — Press play. Feel at home. A modern personal media library on desktop and phone." width="100%"></a>
-</p>
+<p align="center"><img src="images/loungecat-icon.svg" alt="LoungeCat" width="88"></p>
 
-# Your media deserves a better home.
+# LoungeCat
 
-Turn the folders you already have into a streaming experience you’ll want to come back to. **Afterglow brings your movies, TV, anime, and music together in a clean, beautiful browser interface.**
+**Your movies, shows, anime, music, audiobooks and podcasts. One simple home.**
 
-Pick your media folders. Afterglow takes care of the busywork: finding titles, fetching artwork and descriptions, organizing episodes, and watching for new additions. Spend your evening enjoying your collection instead of organizing it.
+<p align="center"><a href="https://shnerplabs.com"><img src="images/loungecat-hero.png" alt="LoungeCat Home with an original fictional demo library" width="100%"></a></p>
 
-### [↓ Download Afterglow for Windows](https://github.com/ShnerpLabs/afterglow-releases/releases/latest)
+Pick your media folders. LoungeCat finds titles and artwork, organizes your collection, and makes it easy to watch or listen on your devices.
 
-**[shnerplabs.com](https://shnerplabs.com)**: setup guide, [Linux and NAS](https://shnerplabs.com/linux-server), and [how Afterglow compares with Plex](https://shnerplabs.com/afterglow-vs-plex).
+### [Download LoungeCat](https://shnerplabs.github.io/loungecat-releases/)
 
-**Windows PC hosts your library · Watch in a browser on your home network · Your files stay on your server**
+[Website](https://shnerplabs.com) | [Setup guide](https://shnerplabs.com/get-started) | [Linux and NAS](https://shnerplabs.com/linux-server) | [Latest release](https://github.com/ShnerpLabs/loungecat-releases/releases/latest)
 
-## Three steps to your next great night.
+## Three steps. Then press play.
 
-1. **Install Afterglow** on the Windows computer that holds your media.
-2. **Choose your folders.** Add movies, shows, anime, music—or all of them.
-3. **Press play.** Open Afterglow on that computer, or visit its local address from another device on the same network.
+1. **Install the server** on the computer that holds your media.
+2. **Choose your folders.** Add films, shows, anime, albums, books and podcasts.
+3. **Connect your devices.** Use a browser or install a client for your phone or another computer.
 
-Afterglow runs quietly in the system tray, regularly rescans your folders, and checks for app updates. Add something new to a folder and let your library catch up.
+Your collection stays in its folders. The computer running your server needs to stay on while other devices use it.
 
-## Less sorting. More discovering.
+## Everything on your shelves, easy to find.
 
-![Afterglow's library, showing a clean grid of illustrated demo covers with full titles and genre information](images/afterglow-library.png)
+![LoungeCat Library showing fictional films, anime, albums, books and podcasts](images/loungecat-library.png)
 
-**A collection that feels like a streaming service.** Artwork, descriptions, seasons, search, favorites, and continue watching make even a sprawling collection feel inviting. Films, series, anime, and albums each get a place of their own.
+Search, artwork, descriptions, favorites, profiles and continue watching help you find your next good thing. Correct a title or choose another match when the automatic lookup needs a hand.
 
-- **Find something you’re in the mood for.** Home brings together related stories, favorite genres, movie series, and things to pick up again.
-- **Let a channel choose.** Library-driven channels turn your collection into something you can simply tune into. Favorite the ones you love.
-- **A place for everyone.** Fun creature avatars and separate profiles keep tastes and watching progress personal. With a server profile, pick up on another device.
-- **Play with one click.** Start from Home or Library, resume where you left off, and let episodes keep going.
+## Pick a channel. Settle in.
+
+![LoungeCat's channel grid with original fictional media](images/loungecat-channels.png)
+
+Channels are built from your collection. Click a tile to play, hover to see what comes next, and save the channels you love.
+
+## A playlist for every kind of evening.
+
+![LoungeCat playlists for films, anime, music, books and podcasts](images/loungecat-playlists.png)
+
+Double features, comfort shows, late-night albums or another chapter. Create a playlist, browse a compact view of your library, and add films, episodes, tracks, books and podcasts in the order you choose.
+
+## Your music, by album and track.
+
+![LoungeCat browsing an original fictional album](images/loungecat-music.png)
+
+Browse artists and albums, pick tracks, or let an album play through. Audio controls and visualizers are there when you want them.
+
+## A quieter end to the day.
+
+![LoungeCat Sleep controls and a queue made from fictional demo media](images/loungecat-sleep.png)
+
+Build a familiar sleep mix from your collection. Choose shows, genres, seasons, music and more, set a duration, arrange the queue and adjust the sound.
 
 ## Bring the files you already have.
 
-**Movies in MKV? Music in FLAC? A collection built over years? Make yourself at home.**
-
-Afterglow combines browser playback with server-side video and audio conversion powered by FFmpeg. Compatible files play directly; supported formats that need help are converted for the receiving device as they play.
+Compatible files play directly. Supported formats that need conversion use FFmpeg on the server. Playback support depends on the file, browser, server hardware and receiving device.
 
 | Video | Audio |
 | --- | --- |
-| MKV, MP4, AVI, MOV, WebM, and more | MP3, FLAC, AAC, WAV, Ogg, and more |
-| H.264, HEVC/H.265, and other FFmpeg-supported codecs | Browser-compatible audio plus server conversion for supported additional codecs |
+| MKV, MP4, AVI, MOV, WebM and more | MP3, FLAC, AAC, WAV, Ogg and more |
 
-Subtitles, audio-track selection, fullscreen, and quality controls keep you in charge. Send playback to compatible TVs or speakers, or open Afterglow in another device’s browser on your home network.
-
-Format support depends on the file, server hardware, browser, and receiving device. Encrypted or DRM-protected media is not supported; cast options depend on the receiver.
-
-## Give your music a little atmosphere.
-
-![Afterglow playing a demo album over an atmospheric nighttime city scene](images/afterglow-music.png)
-
-Your tracks become browsable albums, with artist and cover information where available. Let an album play through while ambient landscapes give the screen something beautiful to do.
-
-## And when the day is done…
-
-![Afterglow's optional Sleep Studio with customizable choices and a viewing queue](images/afterglow-sleep.png)
-
-**Keep your comfort shows close.** Optional Sleep Studio builds a familiar queue from your own collection. Choose genres, shows, seasons, music, and more—or start with a suggested mix. Set the length of your night, soften volume changes, and fade gently at the end.
-
-Want to tune every detail? Edit the queue and sound settings. Want an easy evening? Choose a mix and settle in. Sleep Studio is there when you want it; everyday watching stays front and center.
+Subtitles, audio-track selection, fullscreen and quality controls keep you in charge. Encrypted or DRM-protected media is not supported.
 
 ## A few things to know
 
-**Does it include movies or music?** You bring your own media. Afterglow organizes and plays it; it is not a streaming subscription or content download service. Screenshots show the real app with an illustrative, fictional demo library and original artwork.
+**Is media included?** No. You bring your own collection. Every screenshot here uses original fictional demonstration media and playlists. No personal library is shown.
 
-**Does it move or upload my collection?** Your media stays in its folders on your server. Online title matching and artwork lookup contact metadata providers; they need an internet connection. Other devices stream from your server over your network.
+**Does my collection move or get uploaded?** Media stays in your folders. Online matching and artwork lookup contact metadata providers. Other devices stream from your server.
 
-**Does my computer need to stay on?** Yes. The Windows computer running Afterglow serves your library to the other devices in your home.
+**What do I download?** Use the platform links on the download page. Files ending in `.sig` are update-verification files, not installers. Existing installer filenames remain compatible while the app name changes.
 
-**What do I download?** Open the latest release below and download **AfterglowSetup-…exe** from its Assets. Run the installer, launch Afterglow, and choose your folders. The `.sig` asset is an update-verification file, not the installer.
+**Need help?** [Start with the setup guide](https://shnerplabs.com/get-started), [compare with Plex](https://shnerplabs.com/loungecat-vs-plex), or [report a problem](https://github.com/ShnerpLabs/loungecat-releases/issues).
 
-**What if a title is hard to identify?** Afterglow tries automatic matching first. You can correct a title or choose its match when needed.
+### [Make yourself at home. Get LoungeCat.](https://shnerplabs.github.io/loungecat-releases/)
 
-### [Make yourself at home. Download Afterglow →](https://github.com/ShnerpLabs/afterglow-releases/releases/latest)
-
-[Latest release & changes](https://github.com/ShnerpLabs/afterglow-releases/releases/latest) · [Report a problem](https://github.com/ShnerpLabs/afterglow-releases/issues)
