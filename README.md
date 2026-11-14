@@ -1,10 +1,10 @@
-<p align="center"><img src="images/loungecat-icon-warm.svg" alt="LoungeCat" width="88"></p>
+<p align="center"><img src="images/loungecat-icon-neon.svg" alt="LoungeCat" width="88"></p>
 
 # LoungeCat
 
 **Your movies, shows, anime, music, audiobooks and podcasts. One simple home.**
 
-<p align="center"><a href="https://shnerplabs.com"><img src="images/loungecat-hero-warm-v2.png" alt="LoungeCat Home with an original fictional demo library" width="100%"></a></p>
+<p align="center"><a href="https://shnerplabs.com"><img src="images/loungecat-hero-neon.png" alt="LoungeCat Home with an original fictional demo library" width="100%"></a></p>
 
 Pick your media folders. LoungeCat finds titles and artwork, organizes your collection, and makes it easy to watch or listen on your devices.
 
@@ -22,31 +22,31 @@ Your collection stays in its folders. The computer running your server needs to 
 
 ## Everything on your shelves, easy to find.
 
-![LoungeCat Library showing fictional films, anime, albums, books and podcasts](images/loungecat-library-warm-v2.png)
+![LoungeCat Library showing fictional films, anime, albums, books and podcasts](images/loungecat-library-neon.png)
 
 Search, artwork, descriptions, favorites, profiles and continue watching help you find your next good thing. Correct a title or choose another match when the automatic lookup needs a hand.
 
 ## Pick a channel. Settle in.
 
-![LoungeCat's channel grid with original fictional media](images/loungecat-channels-warm-v2.png)
+![LoungeCat's channel grid with original fictional media](images/loungecat-channels-neon.png)
 
 Channels are built from your collection. Click a tile to play, hover to see what comes next, and save the channels you love.
 
 ## A playlist for every kind of evening.
 
-![LoungeCat playlists for films, anime, music, books and podcasts](images/loungecat-playlists-warm-v2.png)
+![LoungeCat playlists for films, anime, music, books and podcasts](images/loungecat-playlists-neon.png)
 
 Double features, comfort shows, late-night albums or another chapter. Create a playlist, browse a compact view of your library, and add films, episodes, tracks, books and podcasts in the order you choose.
 
 ## Your music, by album and track.
 
-![LoungeCat browsing an original fictional album](images/loungecat-music-warm-v2.png)
+![LoungeCat browsing an original fictional album](images/loungecat-music-neon.png)
 
 Browse artists and albums, pick tracks, or let an album play through. Audio controls and visualizers are there when you want them.
 
 ## A quieter end to the day.
 
-![LoungeCat Sleep controls and a queue made from fictional demo media](images/loungecat-sleep-warm-v2.png)
+![LoungeCat Sleep controls and a queue made from fictional demo media](images/loungecat-sleep-neon.png)
 
 Build a familiar sleep mix from your collection. Choose shows, genres, seasons, music and more, set a duration, arrange the queue and adjust the sound.
 
@@ -65,6 +65,8 @@ Subtitles, audio-track selection, fullscreen and quality controls keep you in ch
 **Is media included?** No. You bring your own collection. Every screenshot here uses original fictional demonstration media and playlists. No personal library is shown.
 
 **Does my collection move or get uploaded?** Media stays in your folders. Online matching and artwork lookup contact metadata providers. Other devices stream from your server.
+
+**Is the Linux server ready for every NAS?** No. The headless setup kit is experimental. Check hardware requirements and keep your existing data folder when updating.
 
 **What do I download?** Use the platform links on the download page. Files ending in `.sig` are update-verification files, not installers. Existing installer filenames remain compatible while the app name changes.
 
